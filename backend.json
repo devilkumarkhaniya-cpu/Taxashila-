@@ -1,0 +1,144 @@
+
+{
+  "entities": {
+    "StudyMaterial": {
+      "title": "Study Material",
+      "description": "Educational content for students",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "subject": { "type": "string" },
+        "icon": { "type": "string" },
+        "description": { "type": "string" },
+        "content": { "type": "string" },
+        "size": { "type": "string" },
+        "type": { "type": "string", "default": "LINK" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["title", "subject", "content"]
+    },
+    "MockTest": {
+      "title": "Mock Test",
+      "description": "A manually created mock test with specific questions",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "subject": { "type": "string" },
+        "difficulty": { "type": "string", "enum": ["easy", "medium", "hard"] },
+        "durationMinutes": { "type": "number" },
+        "questions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "question": { "type": "string" },
+              "options": { "type": "array", "items": { "type": "string" } },
+              "correctAnswer": { "type": "string" }
+            }
+          }
+        },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "isPremium": { "type": "boolean" }
+      },
+      "required": ["title", "subject", "questions"]
+    },
+    "TestResult": {
+      "title": "Test Result",
+      "description": "Record of a student's mock test attempt",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "testId": { "type": "string" },
+        "testTitle": { "type": "string" },
+        "score": { "type": "number" },
+        "total": { "type": "number" },
+        "accuracy": { "type": "number" },
+        "timeTaken": { "type": "number" },
+        "completedAt": { "type": "string", "format": "date-time" }
+      }
+    },
+    "ExamNews": {
+      "title": "Exam News",
+      "description": "Government job alerts and exam updates",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "category": { "type": "string" },
+        "applyLink": { "type": "string" },
+        "lastDate": { "type": "string" },
+        "details": { "type": "string" },
+        "isNew": { "type": "boolean" },
+        "isClosingSoon": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["title", "category", "applyLink"]
+    },
+    "ExamCalendarEvent": {
+      "title": "Exam Calendar Event",
+      "description": "Key dates for exams like admit cards and result dates",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "date": { "type": "string", "format": "date" },
+        "type": { "type": "string", "enum": ["EXAM", "ADMIT_CARD", "RESULT", "DEADLINE"] },
+        "details": { "type": "string" }
+      }
+    },
+    "Bookmark": {
+      "title": "Bookmark",
+      "description": "Saved resources by the user",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "resourceId": { "type": "string" },
+        "resourceType": { "type": "string", "enum": ["PDF", "TEST", "NEWS"] },
+        "title": { "type": "string" },
+        "savedAt": { "type": "string", "format": "date-time" }
+      }
+    },
+    "Subscriber": {
+      "title": "Subscriber",
+      "description": "Email newsletter subscriber",
+      "type": "object",
+      "properties": {
+        "email": { "type": "string", "format": "email" },
+        "subscribedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["email"]
+    }
+  },
+  "auth": {
+    "providers": ["google.com", "password"]
+  },
+  "firestore": {
+    "/studyMaterials/{materialId}": {
+      "schema": "#/backend/entities/StudyMaterial",
+      "description": "Collection of all study materials"
+    },
+    "/mockTests/{testId}": {
+      "schema": "#/backend/entities/MockTest",
+      "description": "Collection of manually created mock tests"
+    },
+    "/testResults/{resultId}": {
+      "schema": "#/backend/entities/TestResult",
+      "description": "User mock test history"
+    },
+    "/examNews/{newsId}": {
+      "schema": "#/backend/entities/ExamNews",
+      "description": "Collection of government job alerts"
+    },
+    "/examCalendar/{eventId}": {
+      "schema": "#/backend/entities/ExamCalendarEvent",
+      "description": "Important exam dates"
+    },
+    "/bookmarks/{bookmarkId}": {
+      "schema": "#/backend/entities/Bookmark",
+      "description": "User's saved resources"
+    },
+    "/subscribers/{subscriberId}": {
+      "schema": "#/backend/entities/Subscriber",
+      "description": "Newsletter subscribers list"
+    }
+  }
+}
